@@ -6,3 +6,5 @@ const getLoginData = async (email, password) => {
 };
 
 module.exports = { getLoginData };
+
+// https://github.com/tryber/sd-025-b-live-lectures/blob/lecture/back-end/6.4/src/services/userService.js
