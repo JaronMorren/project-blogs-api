@@ -1,7 +1,7 @@
 const { loginService } = require('../services');
 
-const validateDisplayName = (require, response, next) => {
-    const { displayName } = require.body;
+const validateDisplayName = (request, response, next) => {
+    const { displayName } = request.body;
   
     if (displayName.length < 8) {
       return response.status(400)
@@ -10,19 +10,18 @@ const validateDisplayName = (require, response, next) => {
     next();
   };
 
-  const validateEmail = async (req, res, next) => {
-    const { email, password } = req.body;
-    const emailRegex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
-// https://pt.stackoverflow.com/questions/1386/express%C3%A3o-regular-para-valida%C3%A7%C3%A3o-de-e-mail
-    
+  const validateEmail = async (request, response, next) => {
+    const { email, password } = request.body;
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
+
     if (!email.match(emailRegex)) {
-  return res.status(400).json({ message: '"email" must be a valid email' });
+  return response.status(400).json({ message: '"email" must be a valid email' });
     }
 
   const existingUser = await loginService.getLoginData({ email, password });
 
   if (existingUser) {
-    return res.status(409).json({ message: 'User already registered' });
+    return response.status(409).json({ message: 'User already registered' });
   }
   next();
 };
