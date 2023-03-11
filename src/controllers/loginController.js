@@ -19,8 +19,8 @@ module.exports = async (request, response) => {
 
         const { password_, ...userWithoutPassword } = user.dataValues;
         const token = createToken(userWithoutPassword);
-
-        response.status(200).json({ token });
+        
+        return response.status(200).json({ token });
     } catch (error) {
         return response.status(500).json({ message: error.message });
     }

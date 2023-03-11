@@ -9,16 +9,17 @@ const validateDisplayName = (request, response, next) => {
     }
     next();
   };
+// I wrote these functions with the mentorship of Marcio Daniel
 
   const validateEmail = async (request, response, next) => {
     const { email, password } = request.body;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     
-    if (!email.match(emailRegex)) {
+    if (!emailRegex.test(email)) {
   return response.status(400).json({ message: '"email" must be a valid email' });
     }
-
-  const existingUser = await loginService.getLoginData({ email, password });
+// I wrote these functions with the help of Gabriel Gonçalves
+  const existingUser = await loginService.getLoginData(email, password);
 
   if (existingUser) {
     return response.status(409).json({ message: 'User already registered' });
@@ -36,4 +37,3 @@ next();
 };
   
   module.exports = { validateDisplayName, validateEmail, validatePassword };
-// I wrote these functions in this file with the mentorship of Marcio Daniel
