@@ -1,3 +1,4 @@
+const { verifyToken } = require('../auth/authorisation');
 const { loginService } = require('../services');
 
 const validateDisplayName = (request, response, next) => {
@@ -35,5 +36,20 @@ const validatePassword = async (request, response, next) => {
 }
 next();
 };
+
+// https://github.com/tryber/sd-025-b-live-lectures/blob/lecture/back-end/6.4/src/middleware/validateToken.js
+const validateToken = async (request, response, next) => {
+  try {
+    const { authorization } = request.headers;
+    if (!authorization) {
+      return response.status(401).json({ message: 'Token not found' });
+    }
+    const payload = verifyToken(authorization);
+    request.data = payload.data;
+    next();
+  } catch (error) {
+    response.status(401).json({ message: 'Expired or invalid token' });
+  }
+};
   
-  module.exports = { validateDisplayName, validateEmail, validatePassword };
+  module.exports = { validateDisplayName, validateEmail, validatePassword, validateToken };
