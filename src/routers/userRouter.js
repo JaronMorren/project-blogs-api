@@ -9,7 +9,8 @@ userRouter.post('/',
 validateDisplayName, validatePassword, validateEmail, 
 usersController.createUser);
 
-userRouter.get('/',
-validateToken, usersController.getUsers);
+userRouter.get('/:id', validateToken, usersController.getUserByID);
+
+userRouter.get('/', validateToken, usersController.getUsers);
 
 module.exports = userRouter;
