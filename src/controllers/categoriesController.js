@@ -1,5 +1,15 @@
 const { categoriesService } = require('../services');
 
+const getCategories = async (_request, response) => {
+    try {
+    const categories = await categoriesService.getCategories();
+  
+    return response.status(200).json(categories);
+  } catch (error) {
+    return response.status(500).json({ message: error.message });
+  }
+};
+
 const createCategory = async (request, response) => {
   try {
     const newCategory = request.body;
@@ -13,5 +23,5 @@ const createCategory = async (request, response) => {
 };
 
 module.exports = {
-  createCategory,
+  createCategory, getCategories,
 };
